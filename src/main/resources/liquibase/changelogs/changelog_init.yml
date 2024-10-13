@@ -1,0 +1,74 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201904141842
+      author: wolvesmentality
+      changes:
+        - createTable:
+            tableName: book
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: TITLE
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: AUTHOR
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PUBLICATION_DATE
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: TAGS
+                  type: jsonb
+        - addPrimaryKey:
+            columnNames: ID
+            constraintName: PK_BOOK
+            tableName: book
+  - changeSet:
+      id: 202410131400
+      author: wolvesmentality
+      changes:
+        - createTable:
+            tableName: rating
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: BOOK_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STARS
+                  type: INT
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            columnNames: ID
+            constraintName: PK_RATING
+            tableName: rating
+        - addForeignKeyConstraint:
+            baseTableName: RATING
+            baseColumnNames: BOOK_ID
+            referencedTableName: BOOK
+            referencedColumnNames: ID
+            constraintName: FK_RATING_BOOK
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
