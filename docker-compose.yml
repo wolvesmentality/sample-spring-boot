@@ -1,14 +1,21 @@
 version: '2'
 services:
   postgres:
-    image: postgres:9.6.13
+    image: postgres:13
     volumes:
-    - postgres_volume:/var/lib/postgresql/data
+      - postgres_volume:/var/lib/postgresql/data
     ports:
-    - "5432:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: book_rating
+  book-rating:
+    image: book-rating
+    ports:
+      - "8090:8090"
+    depends_on:
+      - postgres
+
 volumes:
   postgres_volume:
